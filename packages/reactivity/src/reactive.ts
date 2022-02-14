@@ -14,7 +14,7 @@ import {
 import { UnwrapRefSimple, Ref } from './ref'
 
 export const enum ReactiveFlags {
-  SKIP = '__v_skip',
+  SKIP = '__v_skip',// 跳过
   IS_REACTIVE = '__v_isReactive',
   IS_READONLY = '__v_isReadonly',
   RAW = '__v_raw'
@@ -193,6 +193,8 @@ function createReactiveObject(
   }
   // target is already a Proxy, return it.
   // exception: calling readonly() on a reactive object
+  // 目标已经是一个代理，返回它。
+   // 异常：在响应式对象上调用 readonly()
   if (
     target[ReactiveFlags.RAW] &&
     !(isReadonly && target[ReactiveFlags.IS_REACTIVE])
@@ -200,11 +202,13 @@ function createReactiveObject(
     return target
   }
   // target already has corresponding Proxy
+  // 目标已经有对应的Proxy
   const existingProxy = proxyMap.get(target)
   if (existingProxy) {
     return existingProxy
   }
   // only a whitelist of value types can be observed.
+  // 只能观察到值类型的白名单。
   const targetType = getTargetType(target)
   if (targetType === TargetType.INVALID) {
     return target

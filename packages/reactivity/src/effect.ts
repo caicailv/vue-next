@@ -14,6 +14,13 @@ import {
 // Conceptually, it's easier to think of a dependency as a Dep class
 // which maintains a Set of subscribers, but we simply store them as
 // raw Sets to reduce memory overhead.
+/* 
+存储 {target -> key -> dep} 连接的主 WeakMap。
+从概念上讲，将依赖项视为 Dep 类更容易
+它维护一组订阅者，但我们只是将它们存储为
+原始集以减少内存开销。
+ */
+
 type KeyToDepMap = Map<any, Dep>
 const targetMap = new WeakMap<any, KeyToDepMap>()
 
@@ -26,6 +33,9 @@ export let trackOpBit = 1
  * The bitwise track markers support at most 30 levels of recursion.
  * This value is chosen to enable modern JS engines to use a SMI on all platforms.
  * When recursion depth is greater, fall back to using a full cleanup.
+ * * 按位跟踪标记最多支持 30 级递归。
+  * 选择此值是为了使现代 JS 引擎能够在所有平台上使用 SMI。
+  * 当递归深度更大时，回退到使用完全清理。
  */
 const maxMarkerBits = 30
 
@@ -184,12 +194,12 @@ export function resetTracking() {
   const last = trackStack.pop()
   shouldTrack = last === undefined ? true : last
 }
-
+// 追踪变化
 export function track(target: object, type: TrackOpTypes, key: unknown) {
   if (!isTracking()) {
     return
   }
-  let depsMap = targetMap.get(target)
+  let depsMap = targetMap.get(target) 
   if (!depsMap) {
     targetMap.set(target, (depsMap = new Map()))
   }

@@ -11,6 +11,16 @@ nr build dom
 
 # specify the format to output
 nr build core --formats cjs
+
+生成生产版本并将d.ts文件缝合在一起。
+要指定要生成的包，只需传递其名称和所需的生成
+输出格式（默认为该包中指定的'buildOptions.formats'，
+或“esm，cjs”）：
+```
+#名称支持模糊匹配。将生成名称包含“dom”的所有包：
+nr构建dom
+#指定要输出的格式
+nr构建核心——格式cjs
 ```
 */
 

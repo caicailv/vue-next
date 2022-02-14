@@ -121,6 +121,7 @@ function createGetter(isReadonly = false, shallow = false) {
 
     if (isRef(res)) {
       // ref unwrapping - does not apply for Array + integer key.
+      //ref unwrapping-不适用于数组+整数键。
       const shouldUnwrap = !targetIsArray || !isIntegerKey(key)
       return shouldUnwrap ? res.value : res
     }
@@ -129,6 +130,9 @@ function createGetter(isReadonly = false, shallow = false) {
       // Convert returned value into a proxy as well. we do the isObject check
       // here to avoid invalid value warning. Also need to lazy access readonly
       // and reactive here to avoid circular dependency.
+      //将返回的值也转换为代理。我们做等距检查
+//这里是为了避免无效值警告。还需要以只读方式访问
+//这里是被动的，以避免循环依赖。
       return isReadonly ? readonly(res) : reactive(res)
     }
 
